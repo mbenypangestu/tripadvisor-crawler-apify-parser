@@ -7,9 +7,10 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
-    // MongooseModule.forRoot('mongodb://localhost:27017/hotel_tripinfo'),
-    HotelModule,
-    DatabaseModule
+    MongooseModule.forRoot('mongodb://localhost:27017/hotel_tripinfo', 
+      { useNewUrlParser: true }
+    ),
+    HotelModule
   ],
   controllers: [AppController],
   providers: [AppService],
