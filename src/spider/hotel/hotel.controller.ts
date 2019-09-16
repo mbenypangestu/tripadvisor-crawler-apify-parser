@@ -1,18 +1,19 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, HttpService, Res } from '@nestjs/common';
 import { HotelService } from './hotel.service';
 import { CreateHotelDto } from './dto/create-hotel.dto';
 
-@Controller('hotel')
+@Controller('api/v1/spider/hotel')
 export class HotelController {
-    constructor(private readonly service : HotelService){}
+  constructor(private readonly service: HotelService) {}
 
-    @Post() 
-    async create(@Body() dto : CreateHotelDto) {
-        this.service.create(dto);
-    }
+  @Post()
+  async create(@Body() dto: CreateHotelDto) {
+    this.service.create(dto);
+  }
 
-    @Get() 
-    async findAll(@Body() dto : CreateHotelDto) {
-        console.log("Find All")
-    }
+  @Get()
+  async getHotel() {
+    let process = await this.service.getHotelByLocId(12853007);
+    return process;
+  }
 }
