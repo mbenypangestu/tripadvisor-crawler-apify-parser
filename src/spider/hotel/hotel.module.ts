@@ -1,26 +1,27 @@
 import { Module, HttpService, HttpModule } from '@nestjs/common';
 import { HotelService } from './hotel.service';
 import { HotelController } from './hotel.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { HotelSchema } from './schema/hotel.schema';
-import { hotelProviders } from './hotel.providers';
-import { DatabaseModule } from '../../database/database.module';
+import { LocationService } from '../location/location.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Location } from '../location/location.entity';
+import { Hotel } from './hotel.entity';
+import { ApiService } from '../api/api.service';
 
 @Module({
   providers: [
     HotelService,
+    ApiService,
 
     // ...hotelProviders
   ],
   controllers: [HotelController],
   imports: [
-    DatabaseModule,
-    MongooseModule.forFeature([{ name: 'Hotel', schema: HotelSchema }]),
     HttpModule.register({
       timeout: 18000,
       maxRedirects: 5,
     }),
+    TypeOrmModule.forFeature([Hotel]),
   ],
-  exports: [HotelService],
+  exports: [HotelService, ApiService],
 })
 export class HotelModule {}
