@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NestSchedule, Cron } from 'nest-schedule';
-import { LocationService } from './spider/location/location.service';
-import { HotelService } from './spider/hotel/hotel.service';
+import { LocationService } from './app/spider/location/location.service';
+import { HotelService } from './app/spider/hotel/hotel.service';
 import { async } from 'rxjs/internal/scheduler/async';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class AppService extends NestSchedule {
   ) {
     super();
   }
-  @Cron('0 9 17 * * *', {
+  @Cron('0 11 20 * * *', {
     startTime: new Date(),
     endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
   })

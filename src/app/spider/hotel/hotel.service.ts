@@ -23,8 +23,14 @@ export class HotelService {
   async create(dto: CreateHotelDto): Promise<Hotel> {
     try {
       const save = await this.repo.save(dto);
-      return save;
+
+      if (save) {
+        console.log('Saved ! Hotel ' + dto.location_id + ' - ' + dto.name);
+        return save;
+      }
     } catch (error) {
+      console.log('Failed to save hotel with loc hotel id: ' + dto.location_id);
+      console.log(error + '\n');
       throw new BadRequestException('Failed to save data !');
     }
   }
@@ -32,6 +38,14 @@ export class HotelService {
   async getAllHotel(): Promise<Hotel[]> {
     try {
       return await this.repo.find();
+    } catch (error) {
+      throw new BadRequestException('Failed to get data hotel !');
+    }
+  }
+
+  async getHotelByID(id: string): Promise<Hotel> {
+    try {
+      return await this.repo.findOne({ where: { location_id: id } });
     } catch (error) {
       throw new BadRequestException('Failed to get data hotel !');
     }
@@ -53,28 +67,8 @@ export class HotelService {
 
         await Promise.all(
           hotels.map(async hotel => {
-            // console.log('Hotel - ' + hotel.location_id + ' - ' + hotel.name);
-
-            const hotelCreate = {
-              ...hotel,
-              locationID,
-            };
-            try {
-              const saveHotel = await this.repo.save(hotelCreate);
-
-              if (saveHotel) {
-                console.log(
-                  'Save success on hotel ' +
-                    hotel.location_id +
-                    ' - ' +
-                    hotel.name,
-                );
-              }
-            } catch (error) {
-              console.log(
-                'Failed to save hotel with loc id: ' + hotel.location_id,
-              );
-            }
+            const hotelCreate = { ...hotel, locationID };
+            await this.create(hotelCreate);
           }),
         );
 
@@ -83,9 +77,8 @@ export class HotelService {
           url = paging.next;
         } else next = false;
       } catch (error) {
-        console.log(
-          'Failed to Save Data Hotel from location id : ' + locationID,
-        );
+        console.log('Failed to save hotel from location ID : ' + locationID);
+        console.log(error + '\n');
         break;
       }
     } while (next);

@@ -2,16 +2,17 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HotelModule } from './spider/hotel/hotel.module';
-import { LocationModule } from './spider/location/location.module';
+import { HotelModule } from './app/spider/hotel/hotel.module';
+import { LocationModule } from './app/spider/location/location.module';
 import { join } from 'path';
-import { DatabaseModule } from './config/database/database.module';
+import { DatabaseModule } from './app/config/database/database.module';
 import { ConfigModule, ConfigService } from 'nestjs-dotenv';
-import { HotelService } from './spider/hotel/hotel.service';
-import { LocationService } from './spider/location/location.service';
-import { Location } from './spider/location/location.entity';
+import { HotelService } from './app/spider/hotel/hotel.service';
+import { LocationService } from './app/spider/location/location.service';
+import { Location } from './app/spider/location/location.entity';
 import { ScheduleModule } from 'nest-schedule';
-import { ApiModule } from './spider/api/api.module';
+import { ApiModule } from './app/spider/api/api.module';
+import { ReviewModule } from './app/spider/review/review.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ApiModule } from './spider/api/api.module';
     LocationModule,
     DatabaseModule,
     ApiModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService, LocationService],

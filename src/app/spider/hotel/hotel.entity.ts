@@ -1,6 +1,14 @@
-import { ObjectIdColumn, Column, Entity, ObjectID, ManyToOne } from 'typeorm';
+import {
+  ObjectIdColumn,
+  Column,
+  Entity,
+  ObjectID,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { IHotel } from './interfaces/hotel.interface';
 import { Location } from '../location/location.entity';
+import { Review } from '../review/review.entity';
 
 @Entity({ name: 'hotel' })
 export class Hotel implements IHotel {
@@ -71,4 +79,7 @@ export class Hotel implements IHotel {
   @Column() locationID?: string;
   @ManyToOne(type => Location, loc => loc.hotels)
   location: Location;
+
+  @OneToMany(type => Review, review => review.hotel)
+  reviews: Review[];
 }

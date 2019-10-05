@@ -5,6 +5,7 @@ import {
   HEADER_TRIPADVISOR_API_REQ,
 } from '../../utils/constants';
 import { IResponseHotel } from './interfaces/response-hotel.interface';
+import { IReview } from '../review/interfaces/review.interface';
 
 @Injectable()
 export class ApiService {
@@ -23,6 +24,26 @@ export class ApiService {
       return hotels.data;
     } catch (error) {
       console.log('Failed to retrieve data hotel from location id : ' + loc_id);
+    }
+  }
+
+  async grabReviewByHotelLocationId(
+    url: string,
+    hotel_loc_id: string,
+  ): Promise<IResponseHotel<IReview>> {
+    try {
+      const reviews = await this.http
+        .get<IResponseHotel<IReview>>(url, {
+          headers: HEADER_TRIPADVISOR_API_REQ,
+        })
+        .toPromise();
+      return reviews.data;
+    } catch (error) {
+      console.log(
+        'Failed to retrieve data review from hotel (location) id : ' +
+          hotel_loc_id,
+      );
+      console.log(error + '\n');
     }
   }
 }

@@ -18,8 +18,8 @@ export class HotelController {
 
   @Get()
   async getHotel() {
-    let url = URL_HOTELS_BY_LOCATION + '12853007' + '/hotels';
-    let process = await this.apiService.grabHotelByLocation(url, '12853007');
+    const url = URL_HOTELS_BY_LOCATION + '12853007' + '/hotels';
+    const process = await this.apiService.grabHotelByLocation(url, '12853007');
     return process;
   }
 }
