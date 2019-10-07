@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, HttpService, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  HttpService,
+  Res,
+  Param,
+} from '@nestjs/common';
 import { HotelService } from './hotel.service';
 import { CreateHotelDto } from './dto/create-hotel.dto';
 import { ApiService } from '../api/api.service';
@@ -19,7 +27,12 @@ export class HotelController {
   @Get()
   async getHotel() {
     const url = URL_HOTELS_BY_LOCATION + '12853007' + '/hotels';
-    const process = await this.apiService.grabHotelByLocation(url, '12853007');
-    return process;
+    // return await this.apiService.grabHotelByLocation(url, '12853007');
+  }
+
+  @Get('/:id')
+  async getHotelId(@Param('id') id: string) {
+    const data = await this.service.getHotelByLocHotelID(id);
+    return data;
   }
 }

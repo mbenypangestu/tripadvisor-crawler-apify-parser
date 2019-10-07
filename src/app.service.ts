@@ -12,7 +12,7 @@ export class AppService extends NestSchedule {
   ) {
     super();
   }
-  @Cron('0 11 20 * * *', {
+  @Cron('0 0 1 * * *', {
     startTime: new Date(),
     endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
   })
@@ -21,7 +21,6 @@ export class AppService extends NestSchedule {
     const locs = await this.locationService.findAll();
 
     let i = 0;
-
     const waitFor = ms => new Promise(r => setTimeout(r, ms));
     const asyncForEach = async (index, array, callback) => {
       for (index = 0; index < array.length; index++) {
@@ -31,7 +30,7 @@ export class AppService extends NestSchedule {
 
     const saveHotels = async () => {
       await asyncForEach(i, locs, async loc => {
-        await waitFor(5);
+        await waitFor(1);
 
         await this.hotelService.createMany(loc);
       });
@@ -47,8 +46,5 @@ export class AppService extends NestSchedule {
     // } catch (error) {
     //   console.log('Failed to create all hotels');
     // }
-
-    // let badReqCount = 0;
-    // let zeroHotelCount = 0;
   }
 }

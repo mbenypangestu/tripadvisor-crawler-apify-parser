@@ -6,6 +6,8 @@ import {
 } from '../../utils/constants';
 import { IResponseHotel } from './interfaces/response-hotel.interface';
 import { IReview } from '../review/interfaces/review.interface';
+import { Location } from '../location/location.entity';
+import { Hotel } from '../hotel/hotel.entity';
 
 @Injectable()
 export class ApiService {
@@ -13,7 +15,7 @@ export class ApiService {
 
   async grabHotelByLocation(
     url: string,
-    loc_id: string,
+    loc: Location,
   ): Promise<IResponseHotel<IHotel>> {
     try {
       const hotels = await this.http
@@ -23,13 +25,13 @@ export class ApiService {
         .toPromise();
       return hotels.data;
     } catch (error) {
-      console.log('Failed to retrieve data hotel from location id : ' + loc_id);
+      console.log('Failed to retrieve data hotel from location : ' + loc.name);
     }
   }
 
   async grabReviewByHotelLocationId(
     url: string,
-    hotel_loc_id: string,
+    hotel: Hotel,
   ): Promise<IResponseHotel<IReview>> {
     try {
       const reviews = await this.http
@@ -40,8 +42,7 @@ export class ApiService {
       return reviews.data;
     } catch (error) {
       console.log(
-        'Failed to retrieve data review from hotel (location) id : ' +
-          hotel_loc_id,
+        'Failed to retrieve data review from hotel (location) : ' + hotel.name,
       );
       console.log(error + '\n');
     }

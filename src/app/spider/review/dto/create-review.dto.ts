@@ -1,8 +1,6 @@
 import { ObjectID } from 'typeorm';
 
-export interface IReview {
-  readonly _id: ObjectID;
-
+export class CreateReviewDto {
   readonly id: string;
   readonly lang: string;
   readonly location_id: string;

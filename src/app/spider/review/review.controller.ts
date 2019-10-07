@@ -12,7 +12,7 @@ export class ReviewController {
 
   @Get('test')
   async getReview() {
-    const hotel = await this.hotelService.getHotelByID('12853007');
+    const hotel = await this.hotelService.getHotelByLocHotelID('12853007');
     const data = await this.service.createMany(hotel);
   }
 }

@@ -1,3 +1,5 @@
+import { ObjectID } from 'typeorm';
+
 export class CreateHotelDto {
   readonly location_id: string;
   readonly name: string;
@@ -30,5 +32,7 @@ export class CreateHotelDto {
   readonly phone: string;
   readonly address: string;
   readonly is_candidate_for_contact_info_suppression: boolean;
-  readonly locationID: string;
+
+  readonly locationID: ObjectID;
+  readonly created_at: Date;
 }

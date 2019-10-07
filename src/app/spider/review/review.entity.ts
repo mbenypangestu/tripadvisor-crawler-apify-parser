@@ -27,7 +27,10 @@ export class Review implements IReview {
 
   @Column() title: string;
 
-  @Column() hotelID?: string;
+  @ObjectIdColumn() hotelID: ObjectID;
+
+  @Column({ type: 'datetime' }) created_at: Date;
+
   @ManyToOne(type => Hotel, hotel => hotel.reviews)
   hotel: Hotel;
 }
