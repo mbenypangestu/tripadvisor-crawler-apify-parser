@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { ApiService } from '../api/api.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from './review.entity';
-import { Repository } from 'typeorm';
+import { Repository, ObjectID } from 'typeorm';
 import { URL_HOTELS_BY_LOCATION } from '../../utils/constants';
 import { Hotel } from '../hotel/hotel.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -29,6 +29,19 @@ export class ReviewService {
     }
   }
 
+  async isReviewExist(review_id: ObjectID) {
+    try {
+      const data = await this.repo.findOne({
+        where: { _id: review_id },
+      });
+
+      if (data === undefined) return false;
+      else return true;
+    } catch (error) {
+      throw new BadRequestException('Failed to get data review !');
+    }
+  }
+
   async createMany(hotel: Hotel): Promise<any> {
     const hotelID = hotel._id;
 
@@ -47,9 +60,13 @@ export class ReviewService {
         await Promise.all(
           reviews.map(async review => {
             let date_now: Date = new Date();
+            let is_review_exist = await this.isReviewExist(review._id);
 
-            const reviewCreate = { ...review, hotelID, date_now };
-            await this.create(reviewCreate);
+            if (!is_review_exist) {
+              const reviewCreate = { ...review, hotelID, date_now };
+              await this.create(reviewCreate);
+            } else
+              console.log('Review = ' + review.text + ' is already exist !\n');
           }),
         );
 

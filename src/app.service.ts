@@ -12,7 +12,7 @@ export class AppService extends NestSchedule {
   ) {
     super();
   }
-  @Cron('0 0 1 * * *', {
+  @Cron('0 20 0 * * *', {
     startTime: new Date(),
     endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
   })

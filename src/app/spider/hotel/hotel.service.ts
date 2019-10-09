@@ -40,12 +40,12 @@ export class HotelService {
 
   async isHotelExist(loc_hotel_id: string) {
     try {
-      const data = this.repo.findOne({
+      const data = await this.repo.findOne({
         where: { location_id: loc_hotel_id },
       });
-      console.log(data);
-      if (data !== null || data !== undefined) return true;
-      else return false;
+
+      if (data === undefined) return false;
+      else return true;
     } catch (error) {
       throw new BadRequestException('Failed to get data hotel !');
     }
@@ -82,8 +82,6 @@ export class HotelService {
           hotels.map(async hotel => {
             let is_hotel_exist = await this.isHotelExist(hotel.location_id);
             let date_now: Date = new Date();
-
-            console.log('Status : ' + is_hotel_exist);
 
             if (!is_hotel_exist) {
               const hotelCreate = { ...hotel, locationID, date_now };
