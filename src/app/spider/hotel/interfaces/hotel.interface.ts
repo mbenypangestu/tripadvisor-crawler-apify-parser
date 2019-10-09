@@ -1,4 +1,8 @@
+import { ObjectID } from 'typeorm';
+
 export interface IHotel {
+  readonly _id: ObjectID;
+
   readonly location_id: string;
   readonly name: string;
   readonly num_reviews: string;
@@ -30,4 +34,7 @@ export interface IHotel {
   readonly phone: string;
   readonly address: string;
   readonly is_candidate_for_contact_info_suppression: boolean;
+
+  readonly locationID: ObjectID;
+  readonly created_at: Date;
 }
