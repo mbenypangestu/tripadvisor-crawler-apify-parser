@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const swaggerBaseConfig = new DocumentBuilder()
-    .setTitle('HotelTripInfo - TripAdvisor Scraper & Apify Parser')
+    .setTitle('Wikihotel - TripAdvisor Scraper & Apify Parser')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
